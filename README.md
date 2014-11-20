@@ -22,3 +22,6 @@ Steps
 * create a travis-ci.org account
 * enable continuous integration for your repository
 * create a `.travis.yml` to test your build
+* create a coveralls account
+* make a `gcov` build
+* update load output using `cpp-coveralls`
