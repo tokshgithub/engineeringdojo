@@ -10,7 +10,7 @@ Steps
 * Fork this repository
 * Write a new library **libmym**
   * Create a function `newtan(double x)`, which calculates  tangent using `sin(x)` and `cos(x)`
-  * Write in C, C++ or Fortran ..
+  * Write in C, C++, Fortran or Python (Team-based)
 * Use CMake to build the library
   * make sure `make install` incl. headers works
     * optional: give the library a soname
