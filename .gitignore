@@ -6,3 +6,5 @@ install_manifest.txt
 *~
 src/libmym.so*
 src/libmym.pc
+Testing
+tests/mytest

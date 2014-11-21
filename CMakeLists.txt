@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
 
 project(mym)
+enable_testing()
 set (SOVERSION 0)
 
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CXX_FLAGS)
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_C_FLAGS)
   #release comes with -O3 by default
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
-endif(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CXX_FLAGS)
+endif(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_C_FLAGS)
 
 enable_language(C)
 
@@ -50,3 +51,4 @@ endforeach(FUNC)
 # Include the following subdirectory # 
 ######################################
 add_subdirectory(src)
+add_subdirectory(tests)
