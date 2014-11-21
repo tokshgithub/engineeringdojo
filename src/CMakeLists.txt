@@ -1,9 +1,3 @@
-cmake_minimum_required(VERSION 2.6)
-
-set(MATH_LIBRARIES m)
-set(LIB lib)
-set(SOVERSION 1)
-
 file(GLOB MYM_SOURCES *.c)
 add_library(mym ${MYM_SOURCES})
 target_link_libraries(mym ${MATH_LIBRARIES})
