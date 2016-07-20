@@ -10,7 +10,7 @@ Steps
 * Fork this repository
 * Write a new library **libmym**
   * Create a function `newtan(double x)`, which calculates  tangent using `sin(x)` and `cos(x)`
-  * Write in C, C++, Fortran or Python (Team-based)
+  * Write in C, C++, Fortran (Team-based)
 * Use CMake to build the library
   * make sure `make install` incl. headers works
     * optional: give the library a soname
@@ -24,4 +24,5 @@ Steps
 * create a `.travis.yml` to test your build
 * create a coveralls account
 * make a `gcov` build
-* update load output using `cpp-coveralls`
+* update load output using `coveralls`
+* create a `DOCKERFILE` to build a docker image
