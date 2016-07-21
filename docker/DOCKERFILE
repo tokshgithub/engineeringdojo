@@ -7,7 +7,7 @@ ARG TRAVIS_BRANCH
 ARG TRAVIS_COMMIT
 ARG COVERAGE
 
-RUN dnf install -y -q make cmake git gcc-c++
+RUN dnf install -y -q make cmake git gcc-c++ python-pip
 
 RUN groupadd -r dojo && useradd -r -m -g dojo dojo
 USER dojo
