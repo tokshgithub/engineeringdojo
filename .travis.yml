@@ -32,7 +32,7 @@ before_install:
 
 script: 
    - mkdir build && cd build &&
-     cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DENABLE_TESTING=ON ${COVERAGE:+-DENABLE_COVERAGE_BUILD=ON} ${SHARED_LIBS:+-DBUILD_SHARED_LIBS=${SHARED_LIBS} .. && 
+     cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DENABLE_TESTING=ON ${COVERAGE:+-DENABLE_COVERAGE_BUILD=ON} ${SHARED_LIBS:+-DBUILD_SHARED_LIBS=${SHARED_LIBS}} .. && 
      make -j${J} && make test && make install DESTDIR=${PWD}
 
 after_success:
