@@ -1,0 +1,45 @@
+from fedora:latest
+
+ARG WERROR
+ARG TRAVIS
+ARG TRAVIS_PULL_REQUEST
+ARG TRAVIS_REPO_SLUG
+ARG TRAVIS_BRANCH
+ARG TRAVIS_COMMIT
+ARG COVERAGE
+
+RUN dnf install -y -q make cmake git gcc-c++
+
+RUN groupadd -r dojo && useradd -r -m -g dojo dojo
+USER dojo
+
+WORKDIR /tmp
+RUN if [ ${COVERAGE}  ]; then pip install --user codecov; fi 
+RUN if [ ${WERROR} ]; then export CXXFLAGS="-Werror"; fi
+RUN git clone --recursive https://github.com/${TRAVIS_REPO_SLUG} engineeringdojo
+WORKDIR engineeringdojo
+
+RUN if [ ${TRAVIS} = true ]; then \
+      if [ ${TRAVIS_PULL_REQUEST} != false ]; then \
+        git fetch "git://github.com/${TRAVIS_REPO_SLUG}" +refs/pull/"${TRAVIS_PULL_REQUEST}"/merge: ;\
+        git checkout FETCH_HEAD; \
+      else \
+        git fetch --depth=10 "git://github.com/${TRAVIS_REPO_SLUG}" "${TRAVIS_BRANCH}"; \
+        git checkout "${TRAVIS_COMMIT}"; \
+      fi \
+    fi
+RUN mkdir build
+
+WORKDIR build
+RUN cmake -DCMAKE_VERBOSE_MAKEFILE=ON \
+          -DENABLE_TESTING=ON \
+	  ${COVERAGE:+-DENABLE_COVERAGE_BUILD=ON} \
+	  ${SHARED_LIBS:+-DBUILD_SHARED_LIBS=${SHARED_LIBS}} \
+          ..
+
+RUN make -j2
+RUN make test
+RUN make install DESTDIR=${PWD}
+RUN cd .. && if [ ${COVERAGE} ]; then $HOME/.local/bin/codecov; fi && cd -
+USER root
+RUN make install
