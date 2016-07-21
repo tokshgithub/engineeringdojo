@@ -22,13 +22,12 @@ env:
   matrix:
     - 
     - SHARED_LIBS=OFF
-    - GVER=5 WERROR=ON
+    - GVER=5
     - GVER=4.9 COVERAGE=ON
 
 before_install:
  - if [[ ${GVER} ]]; then export CC=gcc-${GVER}; export CXX=g++-${GVER}; export FC=gfortran-${GVER}; fi
  - if [[ ${COVERAGE}  ]]; then pip install --user codecov; fi 
- - if [[ ${WERROR} ]]; then for i in C CXX FC; do eval export ${i}FLAGS=\"-Werror\"; done; fi
 
 script: 
    - mkdir build && cd build &&
