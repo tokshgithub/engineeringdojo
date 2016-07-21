@@ -20,7 +20,7 @@ script:
 
 after_success:
   - if [[ ${DOCKERHUB} = true && ${DOCKER_EMAIL} && ${DOCKER_USERNAME} && ${DOCKER_PASSWORD} && ${TRAVIS_PULL_REQUEST} == false && ${TRAVIS_BRANCH} == docker ]]; then
-      docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && docker push "codingdojo/engineeringdojo:${TRAVIS_REPO_SLUG//\//_}"
+      docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && docker push "codingdojo/engineeringdojo:${TRAVIS_REPO_SLUG//\//_}";
    fi
 
 compiler:
