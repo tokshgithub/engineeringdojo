@@ -1,12 +1,45 @@
 language: c
 
+sudo: false
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - ccache
+      - gcc-4.9
+      - g++-4.9
+      - gcc-5
+      - g++-5
+      - gfortran-5
+      - ninja
+
+env:
+  global:
+    - CCACHE_CPP2=yes
+    - J=2
+  matrix:
+    - 
+    - SHARED_LIBS=OFF
+    - GVER=5 WERROR=ON
+    - GVER=4.9 COVERAGE=ON
+
 before_install:
-   - sudo apt-get update 
-   - sudo apt-get install cmake
+ - if [[ ${GVER} ]]; then export CC=gcc-${GVER}; export CXX=g++-${GVER}; export FC=gfortran-${GVER}; fi
+ - if [[ ${COVERAGE}  ]]; then pip install --user codecov; fi 
+ - if [[ ${WERROR} ]]; then for i in CC CXX FC; do eval export ${i}=\"${!i} -Werror\"; done; fi
 
 script: 
-   - cmake . && make && make test && sudo make install 
+   - mkdir build && cd build &&
+     cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DENABLE_TESTING=ON ${COVERAGE:+-DENABLE_COVERAGE_BUILD=ON} ${SHARED_LIBS:+-DBUILD_SHARED_LIBS=${SHARED_LIBS} .. && 
+     make -j${J} && make test && make install DESTDIR=${PWD}
+
+after_success:
+  - if [[ ${COVERAGE} ]]; then codecov --gcov-exec gcov-${GVER}; fi
+
+cache:
+  - ccache
 
 compiler:
-  - clang
   - gcc
